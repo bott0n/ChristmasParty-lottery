@@ -1,13 +1,53 @@
 <!Doctype html>
 <html>
     <head>
-        <script>const classNum=30;
-            const giftMax =30;
-            var giftNum=1;
-            var saveArray =[null];
+          <meta charset="UTF-8">
+        <script>
+           const classNum=30;
+          
+
+          var isDataFull = false
+
+          var arrayNum=0;
+          var giftNum=0;
+            
+            var saveArray =[];
+
+
+
+
+
+             
+          
+           //localStorage.setItem("array", '');
+           document.addEventListener("DOMContentLoaded", function(event) { 
+           load()
+});
             
             
+
+           function load(){
+           console.log('start load')
+            array = JSON.parse(localStorage.getItem("array"));
+             for(i=0;i<array.length;i++){
+                saveArray.push(array[i])
+               
+                arrayNum=i
+                giftNum++
+                console.log('load',giftNum)
+                document.getElementsByClassName('output')[0].innerHTML += 
+                giftNum+'號的禮物是:'+" "+array[arrayNum]+' 號同學的禮物'+'\n';
+                
+                
+             }
+            arrayNum++
+           
+             
+           }
+             
             
+
+           
             function getNum(){
              var num= Math.floor((Math.random()*30+1))
              return num
@@ -23,23 +63,40 @@
               }
               while(saveArray.indexOf(randomNum)!==-1)
                 saveArray.push(randomNum)
+
+                localStorage.setItem("array", JSON.stringify(saveArray));
             }
              
             function run(){
-              if(giftNum <=30)
+              if(giftNum <30)
               {
                check()
-              
+
+               giftNum++
+
+               array = JSON.parse(localStorage.getItem("array"));
+               console.log('giftNum run',giftNum)
+               console.log('run',localStorage.array)
                document.getElementsByClassName('output')[0].innerHTML += 
-                 giftNum+'號同學的禮物是:'+" "+saveArray[giftNum]+' 號禮物'+'\n'
+                 giftNum+'號的禮物是:'+" "+array[arrayNum]+' 號同學的禮物'+'\n'
+
+                arrayNum++
+               
               
-              giftNum++
+
+
               console.log(saveArray)
               }
               else{
-                document.getElementsByClassName('output')[0].innerHTML = ''
-                giftNum=1
-                saveArray =[null];
+                console.log('full')
+                document.getElementsByClassName('output')[0].innerHTML = 'datafull\n'+'please reload this page'
+                
+                
+               localStorage.setItem('array','')
+
+
+               isDataFull=true
+               
               }
               
             
@@ -88,7 +145,7 @@
     <body>
         <div class='menu'>
             <button class='btn' onClick='run()'>click me</button>
-            
+           
             </div>
             <div class='main'>
             
